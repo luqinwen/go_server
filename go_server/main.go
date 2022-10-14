@@ -21,7 +21,7 @@ func main() {
 	//gin.SetMode(gin.DebugMode)//开发环境
 	gin.SetMode(gin.ReleaseMode) //线上环境
 	r := gin.Default()
-	//r.Use(Auth)
+	r.Use(Auth)
 	r.POST("/renewal", user.Renewal)
 	r.POST("/logout", user.Logout)
 	r.POST("/login", user.Login)
@@ -32,7 +32,7 @@ func main() {
 	r.POST("/rating", user.Rating)
 	r.POST("/rating/getAll", user.GetAllRating)
 	r.POST("/rating/rateAMovie", user.RateAMovie)
-	r.POST("/rating/updateAMovie", user.UpdateAMovie)
+	r.POST("/rating/updateAMovieRating", user.UpdateMovieRating)
 	r.GET("/", api.Index)
 	r.GET("/my/info", user.Info) //用户信息
 	r.GET("/pong", func(c *gin.Context) {
@@ -44,7 +44,9 @@ func main() {
 }
 func Load() {
 	c := conf.Config{}
-	c.Routes = []string{"/ping", "/renewal", "/login", "/login/mobile", "/sendsms", "/signup/mobile", "/signup/mobile/exist"}
+	c.Routes = []string{"/ping", "/renewal", "/login", "/login/mobile",
+		"/sendsms", "/signup/mobile", "/signup/mobile/exist",
+		"/rating", "/rating/getAll", "/rating/rateAMovie"}
 	c.OpenJwt = true //开启jwt
 	conf.Set(c)
 	//初始化数据验证
